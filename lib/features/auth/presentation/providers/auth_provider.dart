@@ -1,29 +1,33 @@
-// lib/presentation/providers/auth_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../../injection_container.dart';
-import '../../domain/entities/user.dart';
+import '../../data/datasource/auth_remote_data_source.dart';
+import '../../data/repository/auth_repository_impl.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/sign_in_usecase.dart';
+import 'auth_notifier.dart';
+import 'auth_state.dart';
+import 'package:dio/dio.dart';
 
-class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
-  final SignInUseCase signInUseCase;
+// Dio instance provider
+final dioProvider = Provider<Dio>((ref) => Dio());
 
-  AuthNotifier({required this.signInUseCase})
-      : super(const AsyncValue.data(null));
+// Remote data source provider
+final authRemoteDataSourceProvider = Provider<AuthRemoteDataSource>((ref) {
+  return AuthRemoteDataSourceImpl(dio: ref.watch(dioProvider));
+});
 
-  Future<void> signIn(String username, String password) async {
-    state = const AsyncValue.loading();
-    try {
-      final user = await signInUseCase(username: username, password: password);
-      state = AsyncValue.data(user);
-    } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
-    }
-  }
-}
+// Repository provider
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepositoryImpl(
+      remoteDataSource: ref.watch(authRemoteDataSourceProvider));
+});
 
-// Riverpod provider that retrieves SignInUseCase from get_it.
+// UseCase provider
+final signInUseCaseProvider = Provider<SignInUseCase>((ref) {
+  return SignInUseCase(ref.watch(authRepositoryProvider));
+});
+
+// AuthNotifier provider
 final authNotifierProvider =
-    StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
-  final signInUseCase = sl<SignInUseCase>();
-  return AuthNotifier(signInUseCase: signInUseCase);
+    StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+  return AuthNotifier(signInUseCase: ref.watch(signInUseCaseProvider));
 });
