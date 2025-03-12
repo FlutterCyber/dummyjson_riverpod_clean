@@ -2,97 +2,102 @@ import '../../domain/entities/product.dart';
 
 class ProductModel extends Product {
   ProductModel({
-    required int id,
-    required String title,
-    required String description,
-    required String category,
-    required double price,
-    required double discountPercentage,
-    required double rating,
-    required int stock,
-    required List<String> tags,
-    required String brand,
-    required String sku,
-    required double weight,
-    required Dimensions dimensions,
-    required String warrantyInformation,
-    required String shippingInformation,
-    required String availabilityStatus,
-    required List<Review> reviews,
-    required String returnPolicy,
-    required Meta meta,
-    required List<String> images,
-    required String thumbnail,
-  }) : super(
-    id: id,
-    title: title,
-    description: description,
-    category: category,
-    price: price,
-    discountPercentage: discountPercentage,
-    rating: rating,
-    stock: stock,
-    tags: tags,
-    brand: brand,
-    sku: sku,
-    weight: weight,
-    dimensions: dimensions,
-    warrantyInformation: warrantyInformation,
-    shippingInformation: shippingInformation,
-    availabilityStatus: availabilityStatus,
-    reviews: reviews,
-    returnPolicy: returnPolicy,
-    meta: meta,
-    images: images,
-    thumbnail: thumbnail,
-  );
+    required super.id,
+    required super.title,
+    required super.description,
+    required super.category,
+    required super.price,
+    required super.discountPercentage,
+    required super.rating,
+    required super.stock,
+    required super.tags,
+    required super.brand,
+    required super.sku,
+    required super.weight,
+    required super.dimensions,
+    required super.warrantyInformation,
+    required super.shippingInformation,
+    required super.availabilityStatus,
+    required super.reviews,
+    required super.returnPolicy,
+    required super.meta,
+    required super.images,
+    required super.thumbnail,
+  });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      category: json['category'],
-      price: json['price'].toDouble(),
-      discountPercentage: json['discountPercentage'].toDouble(),
-      rating: json['rating'].toDouble(),
-      stock: json['stock'],
-      tags: List<String>.from(json['tags']),
-      brand: json['brand'],
-      sku: json['sku'],
-      weight: json['weight'].toDouble(),
-      dimensions: DimensionsModel.fromJson(json['dimensions']),
-      warrantyInformation: json['warrantyInformation'],
-      shippingInformation: json['shippingInformation'],
-      availabilityStatus: json['availabilityStatus'],
-      reviews: (json['reviews'] as List)
-          .map((review) => ReviewModel.fromJson(review))
-          .toList(),
-      returnPolicy: json['returnPolicy'],
-      meta: MetaModel.fromJson(json['meta']),
-      images: List<String>.from(json['images']),
-      thumbnail: json['thumbnail'],
+      id: json['id'] ?? 0,
+      title: json['title'] ?? "",
+      description: json['description'] ?? "",
+      category: json['category'] ?? "",
+      price: json['price']?.toDouble() ?? 0,
+      discountPercentage: json['discountPercentage']?.toDouble() ?? 0,
+      rating: json['rating'] ?? 0,
+      stock: json['stock'] ?? 0,
+      tags: List<String>.from(json['tags'] ?? []),
+      brand: json['brand'] ?? "",
+      sku: json['sku'] ?? "",
+      weight: json['weight'],
+      dimensions: DimensionsModel.fromJson(json['dimensions'] ?? {}),
+      warrantyInformation: json['warrantyInformation'] ?? "",
+      shippingInformation: json['shippingInformation'] ?? "",
+      availabilityStatus: json['availabilityStatus'] ?? "",
+      reviews: (json['reviews'] as List<dynamic>?)
+          ?.map((review) => ReviewModel.fromJson(review as Map<String, dynamic>))
+          .toList() ??
+          [],
+      returnPolicy: json['returnPolicy'] ?? "",
+      meta: MetaModel.fromJson(json['meta'] ?? {}),
+      images: List<String>.from(json['images'] ?? []),
+      thumbnail: json['thumbnail'] ?? "",
     );
   }
-}
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'category': category,
+      'price': price,
+      'discountPercentage': discountPercentage,
+      'rating': rating,
+      'stock': stock,
+      'tags': tags,
+      'brand': brand,
+      'sku': sku,
+      'weight': weight,
+      'dimensions': (dimensions as DimensionsModel).toJson(),
+      'warrantyInformation': warrantyInformation,
+      'shippingInformation': shippingInformation,
+      'availabilityStatus': availabilityStatus,
+      'reviews': reviews.map((review) => (review as ReviewModel).toJson()).toList(),
+      'returnPolicy': returnPolicy,
+      'meta': (meta as MetaModel).toJson(),
+      'images': images,
+      'thumbnail': thumbnail,
+    };
+  }
+}
 
 class DimensionsModel extends Dimensions {
   DimensionsModel({
-    required double width,
-    required double height,
-    required double depth,
-  }) : super(width: width, height: height, depth: depth);
+    required super.depth,
+  });
 
   factory DimensionsModel.fromJson(Map<String, dynamic> json) {
     return DimensionsModel(
-      width: json['width'].toDouble(),
-      height: json['height'].toDouble(),
-      depth: json['depth'].toDouble(),
+      depth: json['depth'] ?? 0,
     );
   }
-}
 
+  Map<String, dynamic> toJson() {
+    return {
+      'depth': depth,
+    };
+  }
+}
 
 class ReviewModel extends Review {
   ReviewModel({
@@ -118,8 +123,17 @@ class ReviewModel extends Review {
       reviewerEmail: json['reviewerEmail'],
     );
   }
-}
 
+  Map<String, dynamic> toJson() {
+    return {
+      'rating': rating,
+      'comment': comment,
+      'date': date.toIso8601String(),
+      'reviewerName': reviewerName,
+      'reviewerEmail': reviewerEmail,
+    };
+  }
+}
 
 class MetaModel extends Meta {
   MetaModel({
@@ -136,10 +150,19 @@ class MetaModel extends Meta {
 
   factory MetaModel.fromJson(Map<String, dynamic> json) {
     return MetaModel(
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
-      barcode: json['barcode'],
-      qrCode: json['qrCode'],
+      createdAt: json['createdAt'] ?? "",
+      updatedAt: json['updatedAt'] ?? "",
+      barcode: json['barcode'] ?? "",
+      qrCode: json['qrCode'] ?? "",
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'barcode': barcode,
+      'qrCode': qrCode,
+    };
   }
 }

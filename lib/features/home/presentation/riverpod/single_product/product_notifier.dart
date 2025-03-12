@@ -1,8 +1,7 @@
-import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/product_state.dart';
+import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/single_product/product_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../domain/usecases/product_usecase.dart';
-
+import '../../../domain/usecases/product_usecase.dart';
 
 class ProductNotifier extends StateNotifier<ProductState> {
   final ProductUseCase getProduct;

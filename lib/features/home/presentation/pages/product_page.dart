@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../riverpod/product_provider.dart';
-import '../riverpod/product_state.dart';
+import '../riverpod/single_product/product_state.dart';
 import '../widgets/product_widget.dart';
 
 class ProductPage extends ConsumerStatefulWidget {

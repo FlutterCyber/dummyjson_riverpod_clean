@@ -1,5 +1,14 @@
+import 'package:dummyjson_riverpod_clean/features/home/domain/entities/all_products.dart';
+
 import '../entities/product.dart';
 
 abstract class ProductRepository {
   Future<Product> getSingleProduct({required int id});
+
+  Future<AllProducts> getAllProducts();
+
+  Future<AllProducts> searchAllProducts({required String word});
+
+  Future<AllProducts> sortAllProducts(
+      {required String sortName, required String ascDesc});
 }

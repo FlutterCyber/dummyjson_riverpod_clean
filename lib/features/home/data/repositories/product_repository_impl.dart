@@ -1,4 +1,4 @@
-
+import 'package:dummyjson_riverpod_clean/features/home/domain/entities/all_products.dart';
 
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
@@ -12,5 +12,22 @@ class ProductRepositoryImpl implements ProductRepository {
   @override
   Future<Product> getSingleProduct({required int id}) {
     return remoteDataSource.getSingleProduct(id: id);
+  }
+
+  @override
+  Future<AllProducts> getAllProducts() {
+    return remoteDataSource.getAllProducts();
+  }
+
+  @override
+  Future<AllProducts> searchAllProducts({required String word}) {
+    return remoteDataSource.searchAllProducts(word: word);
+  }
+
+  @override
+  Future<AllProducts> sortAllProducts(
+      {required String sortName, required String ascDesc}) {
+    return remoteDataSource.sortAllProducts(
+        sortName: sortName, ascDesc: ascDesc);
   }
 }

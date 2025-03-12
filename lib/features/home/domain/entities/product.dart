@@ -10,7 +10,7 @@ class Product {
   final List<String> tags;
   final String brand;
   final String sku;
-  final double weight;
+  final int weight;
   final Dimensions dimensions;
   final String warrantyInformation;
   final String shippingInformation;
@@ -47,13 +47,13 @@ class Product {
 }
 
 class Dimensions {
-  final double width;
-  final double height;
+  //final double width;
+  //final double height;
   final double depth;
 
   Dimensions({
-    required this.width,
-    required this.height,
+    //required this.width,
+    //required this.height,
     required this.depth,
   });
 }

@@ -1,20 +1,23 @@
+import 'package:dummyjson_riverpod_clean/features/home/presentation/pages/all_products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../home/presentation/pages/product_page.dart';
 import '../providers/auth_provider.dart';
 import '../providers/auth_state.dart';
 
 class SignInPage extends ConsumerStatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+  const SignInPage({super.key});
 
   @override
-  ConsumerState<SignInPage> createState() => _SignInPageState();
+  ConsumerState createState() => _SignInPageState();
 }
 
 class _SignInPageState extends ConsumerState<SignInPage> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
-  void _login() {
+  void login() {
     final username = usernameController.text.trim();
     final password = passwordController.text.trim();
     if (username.isNotEmpty && password.isNotEmpty) {
@@ -24,11 +27,26 @@ class _SignInPageState extends ConsumerState<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AuthState>(authNotifierProvider, (previous, next) {
+      if (next is AuthSuccess) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const AllProductsPage()),
+        );
+      } else if (next is AuthError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.message)),
+        );
+      }
+    });
     final authState = ref.watch(authNotifierProvider);
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: const Text("Sign In"),
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -36,23 +54,40 @@ class _SignInPageState extends ConsumerState<SignInPage> {
               controller: usernameController,
               decoration: const InputDecoration(labelText: "Username"),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(
+              height: 30,
+            ),
             TextField(
               controller: passwordController,
               obscureText: true,
               decoration: const InputDecoration(labelText: "Password"),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text("Sign In"),
+            const SizedBox(
+              height: 30,
             ),
-            const SizedBox(height: 20),
-            if (authState is AuthLoading) const CircularProgressIndicator(),
-            if (authState is AuthError)
-              Text(authState.message, style: const TextStyle(color: Colors.red)),
-            if (authState is AuthSuccess)
-              Text("Welcome, ${authState.user.firstName}!", style: const TextStyle(color: Colors.green)),
+            ElevatedButton(
+              onPressed: () {
+                login();
+              },
+              child: const Text(
+                "Sign in",
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            authState is AuthLoading
+                ? const CircularProgressIndicator()
+                : const SizedBox.shrink(),
+            authState is AuthError
+                ? Text(
+                    authState.message,
+                    style: const TextStyle(color: Colors.red),
+                  )
+                : const SizedBox.shrink(),
           ],
         ),
       ),

@@ -1,9 +1,17 @@
 import 'package:dio/dio.dart';
-
+import 'package:dummyjson_riverpod_clean/features/home/data/models/all_products_model.dart';
+import 'package:dummyjson_riverpod_clean/features/home/domain/entities/all_products.dart';
 import '../models/product_model.dart';
 
 abstract class ProductRemoteDataSource {
   Future<ProductModel> getSingleProduct({required int id});
+
+  Future<AllProducts> getAllProducts();
+
+  Future<AllProducts> searchAllProducts({required String word});
+
+  Future<AllProducts> sortAllProducts(
+      {required String sortName, required String ascDesc});
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -24,6 +32,41 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       return ProductModel.fromJson(response.data);
     } else {
       throw Exception('Failed to get single product');
+    }
+  }
+
+  @override
+  Future<AllProducts> getAllProducts() async {
+    final response = await dio.get('https://dummyjson.com/products');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return AllProductsModel.fromJson(response.data);
+    } else {
+      throw Exception('Failed to get all products');
+    }
+  }
+
+  @override
+  Future<AllProducts> searchAllProducts({required String word}) async {
+    final response =
+        await dio.get('https://dummyjson.com/products/search?q=$word');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return AllProductsModel.fromJson(response.data);
+    } else {
+      throw Exception('Failed to get all products');
+    }
+  }
+
+  @override
+  Future<AllProducts> sortAllProducts(
+      {required String sortName, required String ascDesc}) async {
+    final response = await dio
+        .get('https://dummyjson.com/products?sortBy=$sortName&order=$ascDesc');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return AllProductsModel.fromJson(response.data);
+    } else {
+      throw Exception('Failed to sort products');
     }
   }
 }
