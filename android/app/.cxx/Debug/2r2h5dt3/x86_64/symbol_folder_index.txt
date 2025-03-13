@@ -1,0 +1,1 @@
+/Users/muhammad/StudioProjects/dummyjson_riverpod_clean/build/app/intermediates/cxx/Debug/2r2h5dt3/obj/x86_64

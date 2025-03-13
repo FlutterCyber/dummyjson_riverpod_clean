@@ -1,0 +1,2 @@
+/Users/muhammad/StudioProjects/dummyjson_riverpod_clean/android/app/.cxx/Debug/2r2h5dt3/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/muhammad/StudioProjects/dummyjson_riverpod_clean/android/app/.cxx/Debug/2r2h5dt3/arm64-v8a/CMakeFiles/rebuild_cache.dir
