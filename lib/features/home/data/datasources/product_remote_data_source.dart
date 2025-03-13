@@ -16,6 +16,8 @@ abstract class ProductRemoteDataSource {
       {required String sortName, required String ascDesc});
 
   Future<List<Category>> getCategories();
+
+  Future<AllProducts> getProductsByCategory({required String url});
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -83,6 +85,17 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       return categoriesFromJson(response.data);
     } else {
       throw Exception('Failed to get categories');
+    }
+  }
+
+  @override
+  Future<AllProducts> getProductsByCategory({required String url}) async {
+    final response = await dio.get(url);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return AllProductsModel.fromJson(response.data);
+    } else {
+      throw Exception('Failed to get getProductsByCategory');
     }
   }
 }

@@ -36,4 +36,9 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<List<Category>> getCategories() {
     return remoteDataSource.getCategories();
   }
+
+  @override
+  Future<AllProducts> getProductsByCategory({required String url}) {
+    return remoteDataSource.getProductsByCategory(url: url);
+  }
 }

@@ -1,3 +1,4 @@
+import 'package:dummyjson_riverpod_clean/core/route/route_names.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/categories/categories_state.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,16 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                     itemBuilder: (context, index) {
                       final category = categoryState.categories[index];
                       return ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            RouteNames.byCategoryPage,
+                            arguments: {
+                              "url": category.url,
+                              "name": category.name
+                            },
+                          );
+                        },
                         leading: Text(
                           (index + 1).toString(),
                           style: const TextStyle(
@@ -59,6 +70,13 @@ class _CategoriesPageState extends ConsumerState<CategoriesPage> {
                           category.name,
                           style: const TextStyle(
                             fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          category.url,
+                          style: const TextStyle(
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),

@@ -14,4 +14,6 @@ abstract class ProductRepository {
       {required String sortName, required String ascDesc});
 
   Future<List<Category>> getCategories();
+
+  Future<AllProducts> getProductsByCategory({required String url});
 }
