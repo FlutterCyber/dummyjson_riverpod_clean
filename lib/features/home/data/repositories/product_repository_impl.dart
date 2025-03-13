@@ -1,4 +1,5 @@
 import 'package:dummyjson_riverpod_clean/features/home/domain/entities/all_products.dart';
+import 'package:dummyjson_riverpod_clean/features/home/domain/entities/categories.dart';
 
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
@@ -29,5 +30,10 @@ class ProductRepositoryImpl implements ProductRepository {
       {required String sortName, required String ascDesc}) {
     return remoteDataSource.sortAllProducts(
         sortName: sortName, ascDesc: ascDesc);
+  }
+
+  @override
+  Future<List<Category>> getCategories() {
+    return remoteDataSource.getCategories();
   }
 }

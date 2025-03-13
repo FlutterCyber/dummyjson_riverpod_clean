@@ -1,8 +1,11 @@
 import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/get_all_products_usecase.dart';
+import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/get_categories_usecase.dart';
 import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/search_all_products_usecase.dart';
 import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/sort_all_products_usecase.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/all_products/all_products_notifier.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/all_products/all_products_state.dart';
+import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/categories/categories_notifier.dart';
+import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/categories/categories_state.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/single_product/product_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/datasources/product_remote_data_source.dart';
@@ -40,6 +43,10 @@ final sortAllProductUseCaseProvider = Provider<SortAllProductsUsecase>((ref) {
   return SortAllProductsUsecase(ref.watch(productRepositoryProvider));
 });
 
+final getcategoriesUseCaseProvider = Provider<GetCategoriesUsecase>((ref) {
+  return GetCategoriesUsecase(ref.watch(productRepositoryProvider));
+});
+
 final productProvider =
     StateNotifierProvider<ProductNotifier, ProductState>((ref) {
   return ProductNotifier(ref.watch(getProductUseCaseProvider));
@@ -52,4 +59,9 @@ final allProductsProvider =
     ref.watch(searchAllProductUseCaseProvider),
     ref.watch(sortAllProductUseCaseProvider),
   );
+});
+
+final categoriesProvider =
+    StateNotifierProvider<CategoriesNotifier, CategoriesState>((ref) {
+  return CategoriesNotifier(ref.watch(getcategoriesUseCaseProvider));
 });

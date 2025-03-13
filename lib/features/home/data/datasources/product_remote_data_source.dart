@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:dummyjson_riverpod_clean/features/home/data/models/all_products_model.dart';
+import 'package:dummyjson_riverpod_clean/features/home/data/models/categories_model.dart';
 import 'package:dummyjson_riverpod_clean/features/home/domain/entities/all_products.dart';
+import '../../domain/entities/categories.dart';
 import '../models/product_model.dart';
 
 abstract class ProductRemoteDataSource {
@@ -12,6 +14,8 @@ abstract class ProductRemoteDataSource {
 
   Future<AllProducts> sortAllProducts(
       {required String sortName, required String ascDesc});
+
+  Future<List<Category>> getCategories();
 }
 
 class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
@@ -67,6 +71,18 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       return AllProductsModel.fromJson(response.data);
     } else {
       throw Exception('Failed to sort products');
+    }
+  }
+
+  @override
+  Future<List<Category>> getCategories() async {
+    final response = await dio.get('https://dummyjson.com/products/categories');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      //return CategoriesModel.fromJson(response.data);
+      return categoriesFromJson(response.data);
+    } else {
+      throw Exception('Failed to get categories');
     }
   }
 }

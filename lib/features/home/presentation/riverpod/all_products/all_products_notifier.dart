@@ -2,10 +2,7 @@ import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/get_all_p
 import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/search_all_products_usecase.dart';
 import 'package:dummyjson_riverpod_clean/features/home/domain/usecases/sort_all_products_usecase.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/all_products/all_products_state.dart';
-import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/single_product/product_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../domain/usecases/product_usecase.dart';
 
 class AllProductsNotifier extends StateNotifier<AllProductsState> {
   final GetAllProductsUsecase getAllProductsUsecase;

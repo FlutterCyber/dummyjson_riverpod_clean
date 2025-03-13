@@ -1,3 +1,4 @@
+import 'package:dummyjson_riverpod_clean/core/route/route_names.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/all_products/all_products_state.dart';
 import 'package:dummyjson_riverpod_clean/features/home/presentation/riverpod/product_provider.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,15 @@ class _AllProductsPageState extends ConsumerState<AllProductsPage> {
         title: const Text("All products"),
         centerTitle: true,
         backgroundColor: Colors.green,
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, RouteNames.categoriesPage);
+              },
+              icon: const Icon(
+                Icons.arrow_circle_right_outlined,
+              ))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -62,7 +72,7 @@ class _AllProductsPageState extends ConsumerState<AllProductsPage> {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      sortAllProducts(sortName: "price", ascDesc: 'desc');
+                      sortAllProducts(sortName: "price", ascDesc: 'asc');
                     },
                     child: const Text("Price")),
                 ElevatedButton(
